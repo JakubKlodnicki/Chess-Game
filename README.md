@@ -2,6 +2,10 @@
 Chess game in HTML/CSS/JS (Chessboardjs API)
 Chessboardjs API: chessboardjs.com/
 
+# Version 0.0.4
+Improvement scripts.js
+Add Highlight Legal Moves
+
 # Version 0.0.3
 Upgraded main page
 Add RWD
