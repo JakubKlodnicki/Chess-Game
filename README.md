@@ -2,6 +2,10 @@
 Chess game in HTML/CSS/JS (Chessboardjs API)
 Chessboardjs API: chessboardjs.com/
 
+# Version 0.0.6
+Add Icon Tab Logo
+Add Website name tab
+
 # Version 0.0.5
 Bug fixes from version 0.0.4
 
