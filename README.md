@@ -2,6 +2,15 @@
 Chess game in HTML/CSS/JS (Chessboardjs API)
 Chessboardjs API: chessboardjs.com/
 
+# Version 0.0.2
+Deleted loading-screen
+Add Home-Page
+Add Background
+Add AI to game
+Add highlights
+Add Only Legal move
+Add Turns
+
 # Version 0.0.1
 Add board
 Add chess pieces
