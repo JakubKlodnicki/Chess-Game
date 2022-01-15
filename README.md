@@ -3,6 +3,12 @@
 - Chessboardjs API: chessboardjs.com/
 - Chess.js API: github.com/jhlywa/chess.js
 
+# Version 0.0.8
+- Upgrade Chess Engine (WukongJS Chess Engine)
+- Change build of script
+- Change img location
+- Temporarily disabled highlights
+
 # Version 0.0.7
 - Add "New Game" Button
 - Add "Main Menu" Button
