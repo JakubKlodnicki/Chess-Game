@@ -23,7 +23,7 @@
 - Add RWD
 
 # Version 0.0.2
--Deleted loading-screen
+- Deleted loading-screen
 - Add Home-Page
 - Add Background
 - Add AI to game
