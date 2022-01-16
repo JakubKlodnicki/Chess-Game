@@ -3,6 +3,10 @@
 - Chessboardjs API: chessboardjs.com/
 - Chess.js API: github.com/jhlywa/chess.js
 
+# Version 0.0.9
+- Change buttons (In game with bot)
+- Bug fixes
+
 # Version 0.0.8
 - Upgrade Chess Engine (WukongJS Chess Engine)
 - Change build of script
