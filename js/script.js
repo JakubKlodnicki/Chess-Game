@@ -1797,7 +1797,6 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
         function showResult() {
           var x = document.getElementById('alert')
           x.style.display = "block";
-          document.getElementById("invss").style.color="green";
           }
           showResult();
       }
