@@ -3,6 +3,10 @@
 - Chessboardjs API: chessboardjs.com/
 - Chess.js API: github.com/jhlywa/chess.js
 
+# Version 0.1.0
+- Add timer
+- Updated bot config
+
 # Version 0.0.9
 - Change buttons (In game with bot)
 - Bug fixes
