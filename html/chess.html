@@ -2,7 +2,7 @@
 <html lang="en">
 <html>
   <head>
-    <title>Chessboard</title>
+    <title>Chessboardjs</title>
 
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -15,7 +15,6 @@
     <!-- chessboardjs -->
     <link rel="stylesheet" href="../css/chessboard-1.0.0.min.css">
     <script src="../js/chessboard-1.0.0.min.js"></script>
-    <script src="../js/sc.js"></script>
     
     <!-- WukongJS chess engine -->
     <script src="../js/script.js"></script>
@@ -26,7 +25,7 @@
     <div class="col mt-5">
       <div class="row">
         <div align="center" class="col">
-          
+
           <!-- chess board view -->
 
           <div id="chessboard" class=" mb-2 mt-5" style="width: 600px;">          </div>
@@ -35,18 +34,25 @@
              <h2>End Game!</h2>
           </div>
           <!-- game controls -->
-          <div class="row" style="width: 627px;">                    
+          <div class="row" style="width: 627px;">  
+                              
             <!-- -buttons -->
             <div class="col btn-group">
-              <button id="aswhite">New Game as white</button>
-              <button onclick="window.location.href='../index.html'" id="menu">Menu</button>
-              <button id="asblack">New Game as black</button>
-              <div id="ten-countdown"></div>
-              <div id="ten1-countdown"></div>
-              <div id="ten3-countdown"></div>
-              <div id="invs" style="display: none;">Test</div>
+
+
+              <div id="invs" style="display: none">Test</div>
+
             </div>
           </div>
+
+        </div>
+        <div class="column">
+          <div id="timer2" style="color: white"></div>
+          <div id="timer" style="color: white"></div>
+<div class="btn">
+          <button id="aswhite">New Game as white</button>
+          <button onclick="window.location.href='../index.html'" id="menu">Menu</button>
+          <button id="asblack">New Game as black</button></div>
         </div>
       </div>
     </div>    
@@ -99,7 +105,6 @@
     // update board position
     board.position(engine.generateFen());
   });
-  
 
   
   // handle select move time option
@@ -130,14 +135,27 @@
 
   // make engine move
   function makeMove() {
+    function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+
+
+
     // make computer move
     setTimeout(function() {
-      let bestMove = engine.searchTime(Math.floor(Math.random() * 3000) + 1000); // search for random seconds
+
+      sleep(Math.floor(Math.random() * 3000) + 1000).then(() => {
+        let bestMove = engine.searchTime(1); // search 1/1000s
       engine.makeMove(bestMove);
       let fen = engine.generateFen();
-      board.position(fen);
+  board.position(fen);
+
+});
+
     }, 300);
   }
+
 
   // on dropping piece
   function onDrop (source, target) {
@@ -165,12 +183,13 @@
     engine.makeMove(validMove);  
     engine.printBoard();
 
+
     // make engine move
     makeMove();
 
 
     // TODO: update game status
-    // isGameOver();
+    // isGameOver(); 
   }
 
   // update the board position after the piece snap
