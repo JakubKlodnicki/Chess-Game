@@ -4,6 +4,9 @@
 - Chess.js API: github.com/jhlywa/chess.js
 
 # Version 0.1.0
+- Fixed timer
+
+# Version 0.1.0
 - Add timer
 - Updated bot config
 
