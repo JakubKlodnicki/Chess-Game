@@ -2,17 +2,24 @@
 .clearfix-7da63{clear:both}.board-b72b1{border:2px solid #404040;box-sizing:content-box}.square-55d63{float:left;position:relative;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.white-1e1d7{background-color:#f0d9b5;color:#b58863}.black-3c85d{background-color:#b58863;color:#f0d9b5}.highlight1-32417,.highlight2-9c5d2{box-shadow:inset 0 0 3px 3px #ff0}.notation-322f9{cursor:default;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;position:absolute}.alpha-d2270{bottom:1px;right:3px}.numeric-fc462{top:2px;left:2px}
 body {
 background-color: #2b2b2b;
+max-width: 100%;
+max-height: 100%;
 }
 #chessboard {
   max-width: 100%;
-  width: 85%;
-  
 }
 
+.board {
+  margin-left: auto;
+  margin-right: auto;
+}
 #invs {
   color: green;
 }
-
+.row {
+  margin-left: auto;
+  margin-right: auto;
+}
 #alert {
   padding: 20px;
   background-color: rgba(241, 241, 241, 0.9);
@@ -45,35 +52,25 @@ background-color: #2b2b2b;
   position: absolute;
   right: 0;
   top: 0;
-}
-.column {
-
-  color: white;
-	margin-left: auto;
-	max-width: 100%;
-	max-height: 100%;
-  padding: 100px;
-	justify-content: center;
-	text-align: center;
-  margin-right: 10%;
- 
-}
-
-#timer, #timer2 {
-  font-size: 2.5vw;
-  padding: 10px;
-}
-#timer {
-  background-color: rgb(255, 255, 255);
-  color: black !important;
-  border: 4px solid rgb(161, 161, 161);
 
 }
-#timer2 {
-  background-color: rgb(134, 134, 134);
-  color: black !important;
-  border: 4px solid rgb(104, 104, 104);
+.center {
+  max-width: 100%;
+
 }
+.tmr {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+#clockdiv1 {
+  margin-left: 5px;
+}
+#clockdiv {
+  margin-right: 5px;
+}
+
 #aswhite {
   background-color: transparent; 
   color: white; 
@@ -118,3 +115,4 @@ color: black;
   background: linear-gradient(-60deg, black 50%, white 50%);
   color: transparent;
 }
+

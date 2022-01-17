@@ -14,39 +14,168 @@
 
 // chess engine object
 var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
-  function startTimer(seconds, container, oncomplete) {
-    var startTime, timer, obj, ms = seconds*1000,
-        display = document.getElementById(container);
-    obj = {};
-    obj.resume = function() {
-        startTime = new Date().getTime();
-        timer = setInterval(obj.step,250); // adjust this number to affect granularity
-                            // lower numbers are more accurate, but more CPU-expensive
-    };
-    obj.pause = function() {
-        ms = obj.step();
-        clearInterval(timer);
-    };
-    obj.step = function() {
-        var now = Math.max(0,ms-(new Date().getTime()-startTime)),
-            m = Math.floor(now/60000), s = Math.floor(now/1000)%60;
-        s = (s < 10 ? "0" : "")+s;
-        document.getElementById(container).innerHTML = m+":"+s;
-        if( now == 0) {
-            clearInterval(timer);
-            obj.resume = function() {};
-            if( oncomplete) oncomplete();
-        }
-        return now;
-    };
-    obj.resume();
-    return obj;
-  }
+
+// 10 minutes from now
+var time_in_minutes = 10;
+var current_time = Date.parse(new Date());
+var deadline = new Date(current_time + time_in_minutes*60*1000);
+
+
+function time_remaining(endtime){
+	var t = Date.parse(endtime) - Date.parse(new Date());
+	var seconds = Math.floor( (t/1000) % 60 );
+	var minutes = Math.floor( (t/1000/60) % 60 );
+	var hours = Math.floor( (t/(1000*60*60)) % 24 );
+	var days = Math.floor( t/(1000*60*60*24) );
+  if (minutes+""+seconds == 0) {
+    pause_clock1();
+    document.getElementById('alert').style.display = "block";
+  } 
+	return {'total':t, 'days':days, 'hours':hours, 'minutes':minutes, 'seconds':seconds};
+}
+
+var timeinterval;
+function run_clock(id,endtime){
+	var clock = document.getElementById(id);
+	function update_clock(){
+		var t = time_remaining(endtime);
+    if (t.seconds < 10) {
+      clock.innerHTML = t.minutes+":0"+t.seconds;
+    } else {
+      clock.innerHTML = t.minutes+":"+t.seconds;
+    }
+		
+		if(t.total<=0){ clearInterval(timeinterval); }
+	}
+	update_clock(); // run function once at first to avoid delay
+	timeinterval = setInterval(update_clock,1000);
+}
+run_clock('clockdiv',deadline);
+
+
+var paused = false; // is the clock paused?
+var time_left; // time left on the clock when paused
+
+function pause_clock(){
+	if(!paused){
+		paused = true;
+		clearInterval(timeinterval); // stop the clock
+		time_left = time_remaining(deadline).total; // preserve remaining time
+	}
+}
+function reset_clock(){
+  pause_clock();
+  var t = time_in_minutes * 60 - time_left / 1000;
+  time_left += t * 1000;
+  timeinterval -= timeinterval
+  var clock = document.getElementById("clockdiv");
+  clock.innerHTML = 10+":"+"00";
   
-  var timer = startTimer(10*60, "timer", function() {alert("Done!");});
-  timer.pause();
-  var timer2 = startTimer(10*60, "timer2", function() {alert("Done!");});
-  timer2.pause();
+}
+function resume_clock(){
+	if(paused){
+		paused = false;
+
+		// update the deadline to preserve the amount of time remaining
+		deadline = new Date(Date.parse(new Date()) + time_left);
+
+		// start the clock
+		run_clock('clockdiv',deadline);
+	}
+}
+
+// handle pause and resume button clicks
+
+
+
+
+
+
+
+
+
+
+// CLOCK 2
+// 10 minutes from now
+var time_in_minutes1 = 10;
+var current_time1 = Date.parse(new Date());
+var deadline1 = new Date(current_time1 + time_in_minutes1*60*1000);
+
+
+function time1_remaining1(endtime1){
+	var t1 = Date.parse(endtime1) - Date.parse(new Date());
+	var seconds = Math.floor( (t1/1000) % 60 );
+	var minutes = Math.floor( (t1/1000/60) % 60 );
+	var hours1 = Math.floor( (t1/(1000*60*60)) % 24 );
+	var days1 = Math.floor( t1/(1000*60*60*24) );
+  if (minutes+""+seconds == 0) {
+    pause_clock();
+  } 
+	return {'total':t1, 'days':days1, 'hours':hours1, 'minutes':minutes, 'seconds':seconds};
+}
+
+var timeinterval1;
+function run_clock1(id1,endtime1){
+	var clock1 = document.getElementById('clockdiv1');
+	function update_clock1(){
+		var t = time1_remaining1(endtime1);
+    if (t.seconds < 10) {
+      clock1.innerHTML = t.minutes+":0"+t.seconds;
+    } else {
+      clock1.innerHTML = t.minutes+":"+t.seconds;
+    }
+		
+		if(t.total<=0){ clearInterval(timeinterval1); }
+	}
+	update_clock1(); // run function once at first to avoid delay
+	timeinterval1 = setInterval(update_clock1,1000);
+}
+run_clock1('clockdiv',deadline1);
+
+
+var paused1 = false; // is the clock paused?
+var time_left1; // time left on the clock when paused
+
+function pause_clock1(){
+	if(!paused1){
+		paused1 = true;
+		clearInterval(timeinterval1); // stop the clock
+		time_left1 = time1_remaining1(deadline1).total; // preserve remaining time
+	}
+}
+function reset_clock1(){
+  pause_clock1();
+  var t1 = time_in_minutes * 60 - time_left1 / 1000;
+  time_left1 += t1 * 1000;
+  timeinterval1 -= timeinterval1
+  var clock1 = document.getElementById("clockdiv1");
+  clock1.innerHTML = 10+":"+"00";
+  
+}
+function resume_clock1(){
+	if(paused1){
+		paused1 = false;
+
+		// update the deadline to preserve the amount of time remaining
+		deadline1 = new Date(Date.parse(new Date()) + time_left1);
+
+		// start the clock
+		run_clock1('clockdiv1',deadline1);
+	}
+}
+window.onload=function(){
+  pause_clock1();
+  pause_clock();
+  }
+  document.getElementById('aswhite').onclick=function(){
+    reset_clock1();
+    reset_clock();
+  }
+  document.getElementById('asblack').onclick=function(){
+    reset_clock1();
+    reset_clock();
+  }
+
   /****************************\
    ============================
    
@@ -641,13 +770,13 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
       board[sourceSquare] = e;
       hashKey ^= pieceKeys[piece * 128 + sourceSquare];
       hashKey ^= pieceKeys[piece * 128 + targetSquare];
-      
       for (let pieceIndex = 0; pieceIndex < pieceList[piece]; pieceIndex++) {
         if (pieceList.pieces[piece * 10 + pieceIndex] == sourceSquare) {
           pieceList.pieces[piece * 10 + pieceIndex] = targetSquare;
           break;
         }
       }
+
     }
     
     // remove piece from board
@@ -658,9 +787,8 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
           break;
         }
       }
-      
       pieceList[piece]--;
-      pieceList.pieces[piece * 10 + capturedIndex] = pieceList.pieces[piece * 10 + pieceList[piece]];    
+      pieceList.pieces[piece * 10 + capturedIndex] = pieceList.pieces[piece * 10 + pieceList[piece]];
     }
     
     // add piece to board
@@ -1765,6 +1893,7 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
           function showResult() {
             var x = document.getElementById('alert')
             x.style.display = "block";
+            pause_clock();
             }
             showResult();
         }
@@ -1778,16 +1907,22 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
         }
         
         if (info.includes('mate') || info.includes('-49000')) break;
+        document.getElementById("invs").style.color="red";
+        if (info.includes('mate 1')) {
+          pause_clock();} else {
+        resume_clock();
+        pause_clock1();
+          }
       }
   
       let bestMove = (timing.stopped == 1) ? lastBestMove: pvTable[0];
-  
-      document.getElementById("invs").style.color="red";
-      timer.resume();
-      timer2.pause();
+   
+
       return bestMove;
-    }
-  
+
+
+  }
+
   
     /****************************\
      ============================
@@ -1945,6 +2080,7 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
       
       return moves;
     }
+
     
     // print chess board to console
     function printBoard() {
@@ -1972,11 +2108,12 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
       boardString += '\n\n     Key: ' + hashKey;
       boardString += '\n 50 rule:          ' + fifty;
       boardString += '\n   moves:          ' + ((gamePly % 2) ? Math.round(gamePly / 2) - 1 : Math.round(gamePly / 2));
-      document.getElementById("invs").style.color="blue";
-      timer.pause();
-      timer2.resume();
+      pause_clock();
+      resume_clock1();
+      console.log(boardString);
       initHashTable();
     }
+
     
     // print move
     function moveToString(move) {
@@ -2004,10 +2141,9 @@ var Engine = function(boardSize, lightSquare, darkSquare, selectColor) {
                       '        ' + getMoveCastling(move) + 
                       '         ' + moveList[index].score + '\n';
       }
-      
       listMoves += '\n   Total moves: ' + moveList.length;
-    }
     
+    }
     // print piece list & material counts
     function printPieceList() {
       var materialCountString = '    Material counts:\n\n';

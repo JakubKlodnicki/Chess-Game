@@ -2,7 +2,7 @@
 <html lang="en">
 <html>
   <head>
-    <title>Chessboardjs</title>
+    <title>Chessboardjs - against bot</title>
 
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -13,7 +13,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     
     <!-- chessboardjs -->
-    <link rel="stylesheet" href="../css/chessboard-1.0.0.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/chessboard-1.0.0.min.css">
     <script src="../js/chessboard-1.0.0.min.js"></script>
     
     <!-- WukongJS chess engine -->
@@ -22,17 +22,17 @@
   </head>
   <body>
     
-    <div class="col mt-5">
+    <div class="col mt-5" id="loc">
       <div class="row">
         <div align="center" class="col">
-
+            <div class="board">
           <!-- chess board view -->
 
           <div id="chessboard" class=" mb-2 mt-5" style="width: 600px;">          </div>
           <div id="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
              <h2>End Game!</h2>
-          </div>
+          </div></div>
           <!-- game controls -->
           <div class="row" style="width: 627px;">  
                               
@@ -40,27 +40,30 @@
             <div class="col btn-group">
 
 
-              <div id="invs" style="display: none">Test</div>
 
-            </div>
-          </div>
+              <button id="aswhite">New Game as white</button>
+              <button onclick="window.location.href='../index.html'" id="menu">Menu</button>
+              <button id="asblack">New Game as black</button></div>
+            </div> <div class="tmr">
+            <div id="clockdiv" style="color: white"></div>
+            <div id="clockdiv1" style="color: white"></div>
+          </div></div>
 
         </div>
-        <div class="column">
-          <div id="timer2" style="color: white"></div>
-          <div id="timer" style="color: white"></div>
+
+
+
+
 <div class="btn">
-          <button id="aswhite">New Game as white</button>
-          <button onclick="window.location.href='../index.html'" id="menu">Menu</button>
-          <button id="asblack">New Game as black</button></div>
-        </div>
+
+
       </div>
-    </div>    
+    </div>
+                  <div id="invs" style="display: none">Test</div>    
   </body>
 </html>
 
 <script>
-
 
 
 
@@ -71,24 +74,63 @@
 
    ============================              
   \****************************/
-  
+
+    // make engine move
+    function makeMove() {
+    function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+    }
+    rtime = Math.floor(Math.random() * 3000) + 1000;
+
+
+
+    // make computer move
+    setTimeout(function() {
+
+      sleep(rtime).then(() => {
+        let bestMove = engine.searchTime(10); // search 1/1000s
+      engine.makeMove(bestMove);
+      let fen = engine.generateFen();
+  board.position(fen);
+
+});
+
+    }, 300);
+  }
 
   // handle new game button click
   $('#aswhite').on('click', function() {
+    function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+    }
+    sleep(rtime).then(() => {
     // reset engine
     engine.setBoard(engine.START_FEN);
     board.position('start');
     board.orientation('white')
     document.getElementById("invs").style.color="red";
+    var x = document.getElementById('alert')
+    x.style.display = "none"
+    });
+
   });
   
   // new game as black
   $('#asblack').on('click', function() {
+    function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+    } 
+    sleep(rtime).then(() => {
     engine.setBoard(engine.START_FEN);
     document.getElementById("invs").style.color="red";
     board.position('start');
     board.orientation('black')
     makeMove();
+    var x = document.getElementById('alert')
+    x.style.display = "none"
+    });
+
+
   });
 
   // handle make move button click
@@ -133,28 +175,7 @@
    ============================              
   \****************************/
 
-  // make engine move
-  function makeMove() {
-    function sleep (time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
 
-
-
-
-    // make computer move
-    setTimeout(function() {
-
-      sleep(Math.floor(Math.random() * 3000) + 1000).then(() => {
-        let bestMove = engine.searchTime(1); // search 1/1000s
-      engine.makeMove(bestMove);
-      let fen = engine.generateFen();
-  board.position(fen);
-
-});
-
-    }, 300);
-  }
 
 
   // on dropping piece
@@ -211,9 +232,11 @@
   var config = {
     draggable: true,
     position: 'start',
+    dropOffBoard: 'snapback',
     //onDragStart: onDragStart,
     onDrop: onDrop,
-    onSnapEnd: onSnapEnd
+    onSnapEnd: onSnapEnd,
+
   }
   
   // create chess board widget instance
