@@ -2,7 +2,7 @@
 <html lang="en">
 <html>
   <head>
-    <title>Chessboardjs</title>
+    <title>Chessboardjs - against bot</title>
 
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -74,24 +74,63 @@
 
    ============================              
   \****************************/
-  
+
+    // make engine move
+    function makeMove() {
+    function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+    }
+    rtime = Math.floor(Math.random() * 3000) + 1000;
+
+
+
+    // make computer move
+    setTimeout(function() {
+
+      sleep(rtime).then(() => {
+        let bestMove = engine.searchTime(10); // search 1/1000s
+      engine.makeMove(bestMove);
+      let fen = engine.generateFen();
+  board.position(fen);
+
+});
+
+    }, 300);
+  }
 
   // handle new game button click
   $('#aswhite').on('click', function() {
+    function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+    }
+    sleep(rtime).then(() => {
     // reset engine
     engine.setBoard(engine.START_FEN);
     board.position('start');
     board.orientation('white')
     document.getElementById("invs").style.color="red";
+    var x = document.getElementById('alert')
+    x.style.display = "none"
+    });
+
   });
   
   // new game as black
   $('#asblack').on('click', function() {
+    function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+    } 
+    sleep(rtime).then(() => {
     engine.setBoard(engine.START_FEN);
     document.getElementById("invs").style.color="red";
     board.position('start');
     board.orientation('black')
     makeMove();
+    var x = document.getElementById('alert')
+    x.style.display = "none"
+    });
+
+
   });
 
   // handle make move button click
@@ -136,28 +175,7 @@
    ============================              
   \****************************/
 
-  // make engine move
-  function makeMove() {
-    function sleep (time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
 
-
-
-
-    // make computer move
-    setTimeout(function() {
-
-      sleep(Math.floor(Math.random() * 3000) + 1000).then(() => {
-        let bestMove = engine.searchTime(10); // search 1/1000s
-      engine.makeMove(bestMove);
-      let fen = engine.generateFen();
-  board.position(fen);
-
-});
-
-    }, 300);
-  }
 
 
   // on dropping piece
@@ -214,9 +232,11 @@
   var config = {
     draggable: true,
     position: 'start',
+    dropOffBoard: 'snapback',
     //onDragStart: onDragStart,
     onDrop: onDrop,
-    onSnapEnd: onSnapEnd
+    onSnapEnd: onSnapEnd,
+
   }
   
   // create chess board widget instance

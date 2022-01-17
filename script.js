@@ -27,6 +27,10 @@ function time_remaining(endtime){
 	var minutes = Math.floor( (t/1000/60) % 60 );
 	var hours = Math.floor( (t/(1000*60*60)) % 24 );
 	var days = Math.floor( t/(1000*60*60*24) );
+  if (minutes+""+seconds == 0) {
+    pause_clock1();
+    document.getElementById('alert').style.display = "block";
+  } 
 	return {'total':t, 'days':days, 'hours':hours, 'minutes':minutes, 'seconds':seconds};
 }
 
@@ -104,6 +108,9 @@ function time1_remaining1(endtime1){
 	var minutes = Math.floor( (t1/1000/60) % 60 );
 	var hours1 = Math.floor( (t1/(1000*60*60)) % 24 );
 	var days1 = Math.floor( t1/(1000*60*60*24) );
+  if (minutes+""+seconds == 0) {
+    pause_clock();
+  } 
 	return {'total':t1, 'days':days1, 'hours':hours1, 'minutes':minutes, 'seconds':seconds};
 }
 
@@ -157,8 +164,8 @@ function resume_clock1(){
 	}
 }
 window.onload=function(){
-  reset_clock1();
-  reset_clock();
+  pause_clock1();
+  pause_clock();
   }
   document.getElementById('aswhite').onclick=function(){
     reset_clock1();
@@ -763,13 +770,13 @@ window.onload=function(){
       board[sourceSquare] = e;
       hashKey ^= pieceKeys[piece * 128 + sourceSquare];
       hashKey ^= pieceKeys[piece * 128 + targetSquare];
-      
       for (let pieceIndex = 0; pieceIndex < pieceList[piece]; pieceIndex++) {
         if (pieceList.pieces[piece * 10 + pieceIndex] == sourceSquare) {
           pieceList.pieces[piece * 10 + pieceIndex] = targetSquare;
           break;
         }
       }
+
     }
     
     // remove piece from board
@@ -780,9 +787,8 @@ window.onload=function(){
           break;
         }
       }
-      
       pieceList[piece]--;
-      pieceList.pieces[piece * 10 + capturedIndex] = pieceList.pieces[piece * 10 + pieceList[piece]];    
+      pieceList.pieces[piece * 10 + capturedIndex] = pieceList.pieces[piece * 10 + pieceList[piece]];
     }
     
     // add piece to board
@@ -1887,6 +1893,7 @@ window.onload=function(){
           function showResult() {
             var x = document.getElementById('alert')
             x.style.display = "block";
+            pause_clock();
             }
             showResult();
         }
@@ -1900,16 +1907,22 @@ window.onload=function(){
         }
         
         if (info.includes('mate') || info.includes('-49000')) break;
+        document.getElementById("invs").style.color="red";
+        if (info.includes('mate 1')) {
+          pause_clock();} else {
+        resume_clock();
+        pause_clock1();
+          }
       }
   
       let bestMove = (timing.stopped == 1) ? lastBestMove: pvTable[0];
-  
-      document.getElementById("invs").style.color="red";
-      resume_clock();
-      pause_clock1();
+   
+
       return bestMove;
-    }
-  
+
+
+  }
+
   
     /****************************\
      ============================
@@ -2067,6 +2080,7 @@ window.onload=function(){
       
       return moves;
     }
+
     
     // print chess board to console
     function printBoard() {
@@ -2096,8 +2110,10 @@ window.onload=function(){
       boardString += '\n   moves:          ' + ((gamePly % 2) ? Math.round(gamePly / 2) - 1 : Math.round(gamePly / 2));
       pause_clock();
       resume_clock1();
+      console.log(boardString);
       initHashTable();
     }
+
     
     // print move
     function moveToString(move) {
@@ -2125,10 +2141,9 @@ window.onload=function(){
                       '        ' + getMoveCastling(move) + 
                       '         ' + moveList[index].score + '\n';
       }
-      
       listMoves += '\n   Total moves: ' + moveList.length;
-    }
     
+    }
     // print piece list & material counts
     function printPieceList() {
       var materialCountString = '    Material counts:\n\n';
