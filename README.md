@@ -3,7 +3,7 @@
 - Chessboardjs API: chessboardjs.com/
 - Chess.js API: github.com/jhlywa/chess.js
 
-# Version 0.1.0
+# Version 0.1.1
 - Fixed timer
 
 # Version 0.1.0
